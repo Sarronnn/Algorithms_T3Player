@@ -12,7 +12,7 @@ public class T3Player {
      * Workhorse of an AI T3Player's choice mechanics that, given a game state,
      * makes the optimal choice from that state as defined by the mechanics of the
      * game of Tic-Tac-Total. Note: In the event that multiple moves have
-     * equivalently maximal minimax scores, ties are broken by move col, then row,
+     * equivalently maximal mini-max scores, ties are broken by move col, then row,
      * then move number in ascending order (see spec and unit tests for more info).
      * The agent will also always take an immediately winning move over a delayed
      * one (e.g., 2 moves in the future).
@@ -29,7 +29,7 @@ public class T3Player {
 
 
     /**
-     * Workhorse of alpha-beta prunning, 
+     * Workhorse of alpha-beta pruning, 
      * @param state
      * 			The state from which the T3Player is making a move decision.
      * @param α
@@ -39,9 +39,9 @@ public class T3Player {
      * @param maximizeScore
      * 			If this boolean is true, it is our opponent's turn
      * 			If this boolean is false, it is our turn
-     * @return the minimax score, and also, the optimal action leading to it.
+     * @return the mini-max score, and also, the optimal action leading to it.
      */
-    //g
+    
     private static  ActionAndscore alphabeta(T3State state, int α, int β, boolean maximizeScore) {    
     	int value;
     	T3Action bestAction = null;
@@ -101,8 +101,8 @@ public class T3Player {
 	/**
 	 * @author sarrontadesse
 	 * 
-	 * The class ActionAndscore stores the minimax score we get from 
-	 * the alphabeta prunning and the action that it can take from the current state
+	 * The class ActionAndscore stores the mini-max score we get from 
+	 * the alpha-beta pruning and the action that it can take from the current state
 	 * 
 	 */
 
