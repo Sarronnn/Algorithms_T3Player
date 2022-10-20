@@ -22,10 +22,100 @@ public class T3Player {
      * @return The T3Player's optimal action.
      */
     public T3Action choose (T3State state) {
-        throw new UnsupportedOperationException();
+    	
+    	return alphabeta(state, Integer.MIN_VALUE, Integer.MAX_VALUE, false).action;
+    	
     }
-    
-    // TODO: Implement your alpha-beta pruning recursive helper here!
-    
+
+
+    /**
+     * Workhorse of alpha-beta prunning, 
+     * @param state
+     * 			The state from which the T3Player is making a move decision.
+     * @param α
+     * 			The alpha value
+     * @param β
+     * 			The beta value
+     * @param maximizeScore
+     * 			If this boolean is true, it is our opponent's turn
+     * 			If this boolean is false, it is out turn
+     * @return the minimax score, and also, the optimal action leading to it.
+     */
+    private static  ActionAndscore alphabeta(T3State state, int α, int β, boolean maximizeScore) {    
+    	int value;
+    	T3Action bestAction = null;
+    	if (state.isTie()) {
+    		return new ActionAndscore(0, null); 	
+    	}
+    	if (!maximizeScore && state.isWin()) {
+    		return new ActionAndscore(1, null); 
+    	}
+    	if (maximizeScore && state.isWin()){
+    		return new ActionAndscore(-1, null); 
+    	}
+    	if (maximizeScore) {
+    		value = Integer.MIN_VALUE;
+    		Map<T3Action,T3State> transitions = state.getTransitions(state);
+    		for (Map.Entry<T3Action, T3State> entry : transitions.entrySet()) {
+    			
+    			
+    			ActionAndscore alphaBetascore = alphabeta(entry.getValue() ,α, β, maximizeScore);
+    			if(entry.getKey() == null) {
+    				bestAction = entry.getKey();
+    				return new ActionAndscore(1, bestAction);
+    			}
+    			if (alphaBetascore.minimax > value) {
+    				value = alphaBetascore.minimax;
+    				bestAction = entry.getKey();
+    				
+    			}
+    			α = Math.max(α, value);
+    			if (β <= α) {
+    				break;
+    			}
+    		}
+    		return new ActionAndscore(value, bestAction); 
+    	}
+    	else {
+    		value = Integer.MAX_VALUE;
+    		Map<T3Action,T3State> transitions = state.getTransitions(state);
+    		for (Map.Entry<T3Action, T3State> entry : transitions.entrySet()) {
+    			
+    			ActionAndscore alphaBetascore = alphabeta(entry.getValue() ,α, β, !maximizeScore);
+    			if(entry.getKey() == null) {
+    				bestAction = entry.getKey();
+    				return new ActionAndscore(1, bestAction);
+    			}
+    			if (alphaBetascore.minimax < value) {
+    				value = alphaBetascore.minimax;
+    				bestAction = entry.getKey();	
+    			}
+    			
+    			β = Math.min(β, value);
+    			if (β <= α) {
+    				break;
+    			}	
+    		}
+    		return new ActionAndscore(value, bestAction);	
+    	}
+    }    
 }
+
+	/**
+	 * @author sarrontadesse
+	 * 
+	 * The class ActionAndscore stores the minimax score we get from 
+	 * the alphabeta prunning and the action that it can take from that state
+	 * 
+	 */
+
+	class ActionAndscore {
+		int minimax;
+		T3Action action;
+		ActionAndscore(int minimax, T3Action action) {
+			this.minimax = minimax;
+			this.action = action;
+		}
+	}
+
 

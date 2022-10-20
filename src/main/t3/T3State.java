@@ -131,12 +131,20 @@ public class T3State {
      * next-states that would be reached from this one by taking that action. Note:
      * Returns a TreeMap such that iterating over its key-value pairs is done in
      * sorted order according to the keys (T3Actions).
-     * 
+     * @param state 
+     * 			The state from which the T3Player is making a move decision.
      * @return The map of legal actions to the next states that they lead.
      */
-    public Map<T3Action,T3State> getTransitions () {
-        // [!] TODO
-        throw new UnsupportedOperationException();
+    public Map<T3Action,T3State> getTransitions (T3State state) {
+    	Map<T3Action,T3State> result = new TreeMap<>();
+    	for (int move : state.getMoves()) {
+    		for (int[] position : state.getOpenTiles()) {
+    			T3Action newAction = new T3Action(position[0], position[1], move);
+    			T3State newState = getNextState(newAction);
+    			result.put(newAction, newState);
+    		}
+    	}
+    	return result;
     }
     
     /**
