@@ -38,9 +38,10 @@ public class T3Player {
      * 			The beta value
      * @param maximizeScore
      * 			If this boolean is true, it is our opponent's turn
-     * 			If this boolean is false, it is out turn
+     * 			If this boolean is false, it is our turn
      * @return the minimax score, and also, the optimal action leading to it.
      */
+    //g
     private static  ActionAndscore alphabeta(T3State state, int α, int β, boolean maximizeScore) {    
     	int value;
     	T3Action bestAction = null;
@@ -57,8 +58,6 @@ public class T3Player {
     		value = Integer.MIN_VALUE;
     		Map<T3Action,T3State> transitions = state.getTransitions(state);
     		for (Map.Entry<T3Action, T3State> entry : transitions.entrySet()) {
-    			
-    			
     			ActionAndscore alphaBetascore = alphabeta(entry.getValue() ,α, β, maximizeScore);
     			if(entry.getKey() == null) {
     				bestAction = entry.getKey();
@@ -80,7 +79,6 @@ public class T3Player {
     		value = Integer.MAX_VALUE;
     		Map<T3Action,T3State> transitions = state.getTransitions(state);
     		for (Map.Entry<T3Action, T3State> entry : transitions.entrySet()) {
-    			
     			ActionAndscore alphaBetascore = alphabeta(entry.getValue() ,α, β, !maximizeScore);
     			if(entry.getKey() == null) {
     				bestAction = entry.getKey();
@@ -90,7 +88,6 @@ public class T3Player {
     				value = alphaBetascore.minimax;
     				bestAction = entry.getKey();	
     			}
-    			
     			β = Math.min(β, value);
     			if (β <= α) {
     				break;
@@ -105,7 +102,7 @@ public class T3Player {
 	 * @author sarrontadesse
 	 * 
 	 * The class ActionAndscore stores the minimax score we get from 
-	 * the alphabeta prunning and the action that it can take from that state
+	 * the alphabeta prunning and the action that it can take from the current state
 	 * 
 	 */
 
